@@ -41,28 +41,6 @@
       font-size: 1rem;
     }
 
-    /* TEST BANNER */
-    .test-banner {
-      background: var(--accent);
-      color: #fff;
-      font-family: var(--font-display);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.55rem 1.5rem;
-      text-align: center;
-    }
-    .test-banner span {
-      color: rgba(255,255,255,0.72);
-      font-weight: 400;
-      margin-left: 0.5rem;
-      text-transform: none;
-      letter-spacing: 0;
-      font-family: var(--font-body);
-    }
-
-    /* HEADER */
     .site-header {
       display: flex;
       align-items: center;
@@ -78,15 +56,6 @@
       color: var(--black);
       text-decoration: none;
       letter-spacing: -0.01em;
-    }
-    .logo span {
-      display: inline-block;
-      background: var(--accent);
-      color: #fff;
-      padding: 1px 7px 2px;
-      margin-right: 2px;
-      font-size: 1.1rem;
-      border-radius: 3px;
     }
     .header-tag {
       font-family: var(--font-display);
@@ -105,7 +74,6 @@
     }
     .secure-badge svg { width: 13px; height: 13px; stroke: var(--mid); }
 
-    /* HERO */
     .hero-strip {
       background: var(--black);
       color: var(--white);
@@ -148,11 +116,10 @@
     .hero-sub {
       font-size: 1rem;
       color: rgba(245,245,242,0.6);
-      max-width: 900px;
+      max-width: 420px;
       line-height: 1.65;
     }
 
-    /* TRUST ROW */
     .trust-row {
       display: flex;
       border-bottom: 1px solid var(--border);
@@ -169,13 +136,8 @@
       font-size: 1.1rem;
       display: block;
     }
-    .trust-label {
-      font-size: 0.9rem;
-      color: var(--mid);
-      line-height: 1.4;
-    }
+    .trust-label { font-size: 0.9rem; color: var(--mid); line-height: 1.4; }
 
-    /* MAIN GRID */
     .pay-grid {
       max-width: 1100px;
       margin: 0 auto;
@@ -184,7 +146,6 @@
       min-height: 70vh;
     }
 
-    /* LEFT */
     .pkg-col {
       padding: 2.5rem 3rem 3rem 2.5rem;
       border-right: 1px solid var(--border);
@@ -237,308 +198,77 @@
       gap: 1rem;
     }
     .pkg-card:hover { border-color: #888; }
-    .pkg-card.selected {
-      border-color: var(--accent);
-      background: var(--accent);
-      color: #fff;
-    }
+    .pkg-card.selected { border-color: var(--accent); background: var(--accent); color: #fff; }
     .pkg-card input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
 
-    .pkg-name {
-      font-family: var(--font-display);
-      font-size: 1.05rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
-    .pkg-type {
-      font-size: 0.88rem;
-      color: var(--mid);
-      margin-top: 2px;
-    }
+    .pkg-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+    .pkg-type { font-size: 0.88rem; color: var(--mid); margin-top: 2px; }
     .pkg-card.selected .pkg-type { color: rgba(255,255,255,0.6); }
-    .pkg-desc-text {
-      font-size: 0.92rem;
-      color: var(--mid);
-      margin-top: 0.3rem;
-      line-height: 1.5;
-    }
+    .pkg-desc-text { font-size: 0.92rem; color: var(--mid); margin-top: 0.3rem; line-height: 1.5; }
     .pkg-card.selected .pkg-desc-text { color: rgba(255,255,255,0.6); }
 
-    .pkg-price {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      text-align: right;
-      white-space: nowrap;
-    }
+    .pkg-price { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; text-align: right; white-space: nowrap; }
     .pkg-card.selected .pkg-price { color: #fff; }
 
-    .pkg-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      border: 1.5px solid var(--mid);
-      flex-shrink: 0;
-      margin-top: 5px;
-      transition: background 0.14s, border-color 0.14s;
-    }
+    .pkg-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--mid); flex-shrink: 0; margin-top: 5px; transition: background 0.14s, border-color 0.14s; }
     .pkg-card.selected .pkg-dot { background: #fff; border-color: #fff; }
 
-    .includes-block {
-      margin-top: 2rem;
-      padding: 1.2rem 1.4rem;
-      background: var(--off);
-      border-radius: 6px;
-    }
-    .includes-label {
-      font-family: var(--font-display);
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-bottom: 0.8rem;
-    }
-    .includes-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      font-size: 0.92rem;
-      color: #555;
-    }
-    .includes-list li::before {
-      content: '—';
-      margin-right: 0.5rem;
-      color: var(--accent);
-      font-weight: 700;
-    }
+    .includes-block { margin-top: 2rem; padding: 1.2rem 1.4rem; background: var(--off); border-radius: 6px; }
+    .includes-label { font-family: var(--font-display); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.8rem; }
+    .includes-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.92rem; color: #555; }
+    .includes-list li::before { content: '—'; margin-right: 0.5rem; color: var(--accent); font-weight: 700; }
 
-    /* RIGHT */
-    .checkout-col {
-      padding: 2.5rem 2.5rem 3rem;
-      background: var(--off);
-      display: flex;
-      flex-direction: column;
-    }
+    .checkout-col { padding: 2.5rem 2.5rem 3rem; background: var(--off); display: flex; flex-direction: column; }
 
-    /* Summary */
-    .summary-box {
-      background: var(--white);
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      padding: 1.2rem 1.3rem;
-      margin-bottom: 1.2rem;
-    }
-    .summary-line {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.92rem;
-      padding: 0.35rem 0;
-      border-bottom: 1px solid var(--border);
-    }
+    .summary-box { background: var(--white); border-radius: 6px; border: 1px solid var(--border); padding: 1.2rem 1.3rem; margin-bottom: 1.2rem; }
+    .summary-line { display: flex; justify-content: space-between; font-size: 0.92rem; padding: 0.35rem 0; border-bottom: 1px solid var(--border); }
     .summary-line:last-child { border-bottom: none; }
-    .summary-line.total-line {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 1.15rem;
-      padding-top: 0.6rem;
-      margin-top: 0.2rem;
-    }
+    .summary-line.total-line { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; padding-top: 0.6rem; margin-top: 0.2rem; }
     .summary-line.discount-line { color: var(--success); display: none; }
     .sum-label { color: var(--mid); }
     .summary-line.total-line .sum-label { color: var(--black); }
-    .deposit-note {
-      margin-top: 0.9rem;
-      padding: 0.7rem 0.9rem;
-      background: var(--accent-light);
-      border-radius: 4px;
-      font-size: 0.88rem;
-      color: #1a2e80;
-      line-height: 1.55;
-    }
+    .deposit-note { margin-top: 0.9rem; padding: 0.7rem 0.9rem; background: var(--accent-light); border-radius: 4px; font-size: 0.88rem; color: #1a2e80; line-height: 1.55; }
 
-    /* Toggle */
-    .pay-type-toggle {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border: 1.5px solid var(--border-md);
-      border-radius: 6px;
-      overflow: hidden;
-      margin-bottom: 1rem;
-      background: var(--white);
-    }
-    .toggle-btn {
-      padding: 0.7rem;
-      font-family: var(--font-display);
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      border: none;
-      background: transparent;
-      color: var(--mid);
-      cursor: pointer;
-      transition: background 0.13s, color 0.13s;
-    }
+    .pay-type-toggle { display: grid; grid-template-columns: 1fr 1fr; border: 1.5px solid var(--border-md); border-radius: 6px; overflow: hidden; margin-bottom: 1rem; background: var(--white); }
+    .toggle-btn { padding: 0.7rem; font-family: var(--font-display); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; border: none; background: transparent; color: var(--mid); cursor: pointer; transition: background 0.13s, color 0.13s; }
     .toggle-btn:first-child { border-right: 1px solid var(--border-md); }
     .toggle-btn.active { background: var(--accent); color: #fff; }
 
-    .charge-note {
-      text-align: center;
-      font-size: 0.88rem;
-      color: var(--mid);
-      margin-bottom: 1.2rem;
-    }
+    .charge-note { text-align: center; font-size: 0.88rem; color: var(--mid); margin-bottom: 1.2rem; }
     .charge-note strong { color: var(--black); font-weight: 500; }
 
-    /* Discount */
     .discount-wrap { display: flex; gap: 0.4rem; margin-bottom: 0.5rem; }
-    .discount-input {
-      flex: 1;
-      padding: 0.65rem 0.9rem;
-      border: 1.5px solid var(--border-md);
-      border-radius: 5px;
-      font-family: var(--font-display);
-      font-size: 0.88rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: var(--white);
-      color: var(--black);
-      outline: none;
-      transition: border-color 0.14s;
-    }
-    .discount-input::placeholder {
-      text-transform: none;
-      letter-spacing: 0;
-      font-weight: 400;
-      font-family: var(--font-body);
-      color: var(--mid);
-    }
+    .discount-input { flex: 1; padding: 0.65rem 0.9rem; border: 1.5px solid var(--border-md); border-radius: 5px; font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; background: var(--white); color: var(--black); outline: none; transition: border-color 0.14s; }
+    .discount-input::placeholder { text-transform: none; letter-spacing: 0; font-weight: 400; font-family: var(--font-body); color: var(--mid); }
     .discount-input:focus { border-color: var(--accent); }
-    .discount-btn {
-      padding: 0.65rem 1.1rem;
-      font-family: var(--font-display);
-      font-size: 0.82rem;
-      font-weight: 700;
-      border: 1.5px solid var(--accent);
-      border-radius: 5px;
-      background: var(--white);
-      color: var(--accent);
-      cursor: pointer;
-      transition: background 0.13s, color 0.13s;
-      white-space: nowrap;
-    }
+    .discount-btn { padding: 0.65rem 1.1rem; font-family: var(--font-display); font-size: 0.82rem; font-weight: 700; border: 1.5px solid var(--accent); border-radius: 5px; background: var(--white); color: var(--accent); cursor: pointer; transition: background 0.13s, color 0.13s; white-space: nowrap; }
     .discount-btn:hover { background: var(--accent); color: #fff; }
 
-    .discount-msg {
-      font-size: 0.88rem;
-      padding: 0.5rem 0.75rem;
-      border-radius: 4px;
-      margin-bottom: 0.8rem;
-      display: none;
-    }
+    .discount-msg { font-size: 0.88rem; padding: 0.5rem 0.75rem; border-radius: 4px; margin-bottom: 0.8rem; display: none; }
     .discount-msg.ok { background: var(--success-bg); color: var(--success); display: block; }
     .discount-msg.err { background: var(--error-bg); color: var(--error); display: block; }
 
-    /* Stripe */
-    #stripe-mount {
-      border: 1.5px solid var(--border-md);
-      border-radius: 6px;
-      padding: 1rem;
-      background: var(--white);
-      margin-bottom: 1.2rem;
-      min-height: 150px;
-    }
-    .stripe-placeholder {
-      font-size: 0.92rem;
-      color: var(--mid);
-      text-align: center;
-      padding: 2rem 0;
-    }
+    #stripe-mount { border: 1.5px solid var(--border-md); border-radius: 6px; padding: 1rem; background: var(--white); margin-bottom: 1.2rem; min-height: 150px; }
+    .stripe-placeholder { font-size: 0.92rem; color: var(--mid); text-align: center; padding: 2rem 0; }
 
-    /* Pay button */
-    .pay-btn {
-      width: 100%;
-      padding: 1.05rem;
-      font-family: var(--font-display);
-      font-size: 1rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.14s, transform 0.1s;
-    }
+    .pay-btn { width: 100%; padding: 1.05rem; font-family: var(--font-display); font-size: 1rem; font-weight: 800; letter-spacing: 0.04em; background: var(--accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; transition: background 0.14s, transform 0.1s; }
     .pay-btn:hover { background: var(--accent-hover); }
     .pay-btn:active { transform: scale(0.99); }
     .pay-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-    #pay-error {
-      font-size: 0.88rem;
-      color: var(--error);
-      background: var(--error-bg);
-      border-radius: 4px;
-      padding: 0.6rem 0.8rem;
-      margin-top: 0.8rem;
-      display: none;
-    }
+    #pay-error { font-size: 0.88rem; color: var(--error); background: var(--error-bg); border-radius: 4px; padding: 0.6rem 0.8rem; margin-top: 0.8rem; display: none; }
 
-    .secure-foot {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      justify-content: center;
-      font-size: 0.82rem;
-      color: var(--mid);
-      margin-top: 0.9rem;
-    }
+    .secure-foot { display: flex; align-items: center; gap: 5px; justify-content: center; font-size: 0.82rem; color: var(--mid); margin-top: 0.9rem; }
     .secure-foot svg { width: 11px; height: 11px; stroke: var(--mid); }
 
-    /* SUCCESS */
-    .pay-success {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 3rem 1.5rem;
-      gap: 1rem;
-    }
-    .success-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .pay-success { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem 1.5rem; gap: 1rem; }
+    .success-icon { width: 56px; height: 56px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; }
     .success-icon svg { width: 24px; height: 24px; stroke: #fff; }
-    .success-head {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
+    .success-head { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; }
     .success-sub { font-size: 0.95rem; color: var(--mid); max-width: 280px; line-height: 1.55; }
 
-    /* FOOTER */
-    .site-footer {
-      border-top: 1px solid var(--border);
-      padding: 1.5rem 2.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .footer-brand {
-      font-family: var(--font-display);
-      font-size: 0.88rem;
-      font-weight: 700;
-    }
+    .site-footer { border-top: 1px solid var(--border); padding: 1.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .footer-brand { font-family: var(--font-display); font-size: 0.88rem; font-weight: 700; }
     .footer-copy { font-size: 0.82rem; color: var(--mid); }
     .footer-copy a { color: var(--mid); }
 
@@ -556,11 +286,6 @@
 </head>
 <body>
 
-  <div class="test-banner">
-    Test mode active
-    <span>Card: 4242 4242 4242 4242 · any future expiry · any CVC</span>
-  </div>
-
   <header class="site-header">
     <a href="/" class="logo">'lase</a>
     <span class="header-tag">Secure Checkout</span>
@@ -574,7 +299,7 @@
 
   <div class="hero-strip">
     <p class="hero-eyebrow">Website Services</p>
-    <h1 class="hero-title">Let's get your <em>site moving.</em></h1>
+    <h1 class="hero-title">Let's get your<br><em>site moving.</em></h1>
     <p class="hero-sub">Select your package, apply a discount code if you have one, and pay securely. I'll be in touch within 48 hours.</p>
   </div>
 
@@ -615,9 +340,7 @@
               <p class="pkg-desc-text">Everything on one elegant scrolling page. Great for portfolios, personal brands, and solo freelancers.</p>
             </div>
           </div>
-          <div>
-            <p class="pkg-price">£200</p>
-          </div>
+          <div><p class="pkg-price">£200</p></div>
         </label>
 
         <label class="pkg-card" data-price="350" data-id="personal_multi">
@@ -630,9 +353,7 @@
               <p class="pkg-desc-text">Home, About, Services, Contact and more. For individuals who need room to say more.</p>
             </div>
           </div>
-          <div>
-            <p class="pkg-price">£350</p>
-          </div>
+          <div><p class="pkg-price">£350</p></div>
         </label>
 
         <p class="pkg-group-label">Business &amp; Organisations</p>
@@ -647,9 +368,7 @@
               <p class="pkg-desc-text">A focused, high-impact page for businesses, churches, and community organisations.</p>
             </div>
           </div>
-          <div>
-            <p class="pkg-price">£400</p>
-          </div>
+          <div><p class="pkg-price">£400</p></div>
         </label>
 
         <label class="pkg-card" data-price="500" data-id="business_multi">
@@ -662,9 +381,7 @@
               <p class="pkg-desc-text">A complete website for businesses and orgs — services, team, about, and contact pages.</p>
             </div>
           </div>
-          <div>
-            <p class="pkg-price">£500</p>
-          </div>
+          <div><p class="pkg-price">£500</p></div>
         </label>
 
       </div>
@@ -754,7 +471,7 @@
   </footer>
 
 <script>
-const STRIPE_KEY = 'pk_test_51TeKNHEn65MJH1X7sxRR59dznmwCFvbBcbiuz3eG6hg8WdKdcngcfqBMYy2OtK5qUW7EBd6FhoV5iXkSFhSlU4vG00wCiKREz8';
+const STRIPE_KEY = 'pk_test_REPLACE_WITH_YOUR_KEY';
 
 const DISCOUNT_CODES = {
   'CHURCH20':  { type: 'percent', value: 20,  label: '20% off for church & community organisations' },
@@ -774,7 +491,7 @@ let S = { id: 'personal_single', base: 200, disc: 0, type: 'deposit' };
 let stripe, elements;
 
 function total() { return Math.max(S.base - S.disc, 0); }
-function charge() { const t = total(); return S.type === 'deposit' ? Math.round(t * 50) / 100 : t; }
+function charge() { const t = total(); return S.type === 'deposit' ? t / 2 : t; }
 function fmt(n) { return '£' + n.toFixed(2); }
 
 function refresh() {
@@ -786,16 +503,15 @@ function refresh() {
   dl.style.display = S.disc > 0 ? 'flex' : 'none';
   document.getElementById('sumDiscAmt').textContent = '−' + fmt(S.disc);
   document.getElementById('sumTotal').textContent = fmt(t);
+  document.getElementById('depositAmt').textContent = fmt(c);
+  document.getElementById('remainAmt').textContent = fmt(r);
+  document.getElementById('chargeDisplay').textContent = fmt(c);
+  document.getElementById('btnAmt').textContent = fmt(c);
 
   const dn = document.getElementById('depositNote');
   dn.innerHTML = S.type === 'deposit'
-    ? `Paying <strong>50% deposit</strong> today: <strong>${fmt(c)}</strong>. Remaining ${fmt(r)} due before launch.`
+    ? `Paying <strong>50% deposit</strong> today: <strong id="depositAmt">${fmt(c)}</strong>. Remaining <span id="remainAmt">${fmt(r)}</span> due before launch.`
     : 'Paying the <strong>full amount</strong> today. No further payment required.';
-
-  document.getElementById('chargeDisplay').textContent = fmt(c);
-  document.getElementById('btnAmt').textContent = fmt(c);
-  document.getElementById('depositAmt').textContent = fmt(c);
-  document.getElementById('remainAmt').textContent = fmt(r);
 
   initStripe(Math.round(c * 100));
 }
@@ -834,7 +550,7 @@ function applyDiscount() {
     S.disc = 0; refresh(); return;
   }
   S.disc = def.type === 'percent'
-    ? Math.round(S.base * def.value / 100 * 100) / 100
+    ? Math.round(S.base * def.value) / 100
     : Math.min(def.value, S.base);
   dm.className='discount-msg ok';
   dm.textContent='✓ ' + def.label + ' — saving ' + fmt(S.disc);
@@ -843,28 +559,30 @@ function applyDiscount() {
 
 document.getElementById('discInput').addEventListener('keydown', e => { if (e.key==='Enter') applyDiscount(); });
 
+let stripeInitialised = false;
+
 async function initStripe(pence) {
   const mount = document.getElementById('stripe-mount');
-  if (STRIPE_KEY.includes('REPLACE_WITH')) {
-    mount.innerHTML = `
-      <div style="padding:1.2rem;text-align:center;border:1.5px dashed rgba(13,13,13,0.15);border-radius:5px;">
-        <p style="font-family:var(--font-display);font-size:0.88rem;font-weight:700;color:#888;margin-bottom:0.4rem;">Stripe Payment Element</p>
-        <p style="font-size:0.85rem;color:#aaa;line-height:1.5;">Replace the key at the top of the script to activate.<br>Card, Apple Pay &amp; Google Pay load here automatically.</p>
-        <div style="margin-top:0.9rem;background:var(--off);border-radius:4px;padding:0.7rem 0.9rem;font-size:0.85rem;color:#666;text-align:left;">
-          <strong>Test card:</strong> 4242 4242 4242 4242 &nbsp;·&nbsp; <strong>Expiry:</strong> any future date &nbsp;·&nbsp; <strong>CVC:</strong> any 3 digits
-        </div>
-      </div>`;
-    document.getElementById('payBtn').disabled = false;
-    return;
+
+  if (!stripe) {
+    try { stripe = Stripe(STRIPE_KEY); } catch(e) {
+      mount.innerHTML = '<p style="font-size:0.88rem;color:var(--error);text-align:center;padding:1.5rem 0;">Stripe failed to load. Please refresh.</p>';
+      return;
+    }
   }
-  if (!stripe) stripe = Stripe(STRIPE_KEY);
+
   try {
-    const res = await fetch('/api/create-payment-intent', {
+    const res = await fetch('/.netlify/functions/create-payment-intent', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ amount: pence, currency: 'gbp', package: S.id, paymentType: S.type })
     });
-    const { clientSecret } = await res.json();
+
+    if (!res.ok) throw new Error('Function returned ' + res.status);
+
+    const { clientSecret, error: apiError } = await res.json();
+    if (apiError) throw new Error(apiError);
+
     elements = stripe.elements({ clientSecret, appearance: {
       theme: 'flat',
       variables: {
@@ -882,17 +600,19 @@ async function initStripe(pence) {
         '.Label': { fontWeight: '500', fontSize: '11px', letterSpacing: '0.1em', textTransform: 'uppercase' },
       }
     }});
+
     const pe = elements.create('payment');
     mount.innerHTML = '';
     pe.mount('#stripe-mount');
     pe.on('ready', () => { document.getElementById('payBtn').disabled = false; });
+
   } catch(e) {
-    mount.innerHTML = '<p style="font-size:0.92rem;color:var(--error);text-align:center;padding:1.5rem 0;">Could not load payment form. Please refresh.</p>';
+    console.error('Stripe init error:', e);
+    mount.innerHTML = `<p style="font-size:0.88rem;color:var(--error);text-align:center;padding:1.5rem 0;">Could not load payment form: ${e.message}</p>`;
   }
 }
 
 document.getElementById('payBtn').addEventListener('click', async () => {
-  if (STRIPE_KEY.includes('REPLACE_WITH')) { showSuccess(); return; }
   const btn = document.getElementById('payBtn');
   const err = document.getElementById('pay-error');
   btn.disabled = true;
@@ -907,7 +627,7 @@ document.getElementById('payBtn').addEventListener('click', async () => {
     err.textContent = error.message;
     err.style.display = 'block';
     btn.disabled = false;
-    refresh();
+    btn.innerHTML = 'Pay <span id="btnAmt">' + fmt(charge()) + '</span> — Confirm';
   } else {
     showSuccess();
   }
@@ -915,8 +635,7 @@ document.getElementById('payBtn').addEventListener('click', async () => {
 
 function showSuccess() {
   document.getElementById('payForm').style.display = 'none';
-  const s = document.getElementById('paySuccess');
-  s.style.display = 'flex';
+  document.getElementById('paySuccess').style.display = 'flex';
 }
 
 refresh();
