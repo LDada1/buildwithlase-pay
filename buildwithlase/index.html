@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pay · buildwithlase</title>
+  <meta name="description" content="Secure payment for your website project with buildwithlase. Professional websites for individuals, businesses and organisations."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0d0d0d;
+      --white: #f5f5f2;
+      --off: #eeecea;
+      --mid: #9a9690;
+      --border: rgba(13,13,13,0.1);
+      --border-md: rgba(13,13,13,0.18);
+      --accent: #2152e8;
+      --accent-light: #dce5fd;
+      --accent-hover: #1740c4;
+      --success-bg: #e6f4ec;
+      --success: #1a7a3c;
+      --error-bg: #fceaea;
+      --error: #9c2c2c;
+      --warn-bg: #fff8e1;
+      --warn: #7a5c00;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+      line-height: 1.55;
+      font-size: 1rem;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.35rem;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .header-tag {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+    .secure-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--mid);
+    }
+    .secure-badge svg { width: 13px; height: 13px; stroke: var(--mid); }
+
+    .hero-strip {
+      background: var(--black);
+      color: var(--white);
+      padding: 4rem 2.5rem 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-strip::after {
+      content: 'PAY';
+      position: absolute;
+      right: -0.05em;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(8rem, 18vw, 15rem);
+      color: rgba(255,255,255,0.04);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+    }
+    .hero-title em { font-style: normal; color: var(--accent); }
+    .hero-sub {
+      font-size: 1rem;
+      color: rgba(245,245,242,0.6);
+      max-width: 850px;
+      line-height: 1.65;
+    }
+
+    .trust-row {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+    .trust-item {
+      flex: 1;
+      padding: 1.1rem 2rem;
+      border-right: 1px solid var(--border);
+    }
+    .trust-item:last-child { border-right: none; }
+    .trust-val {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: block;
+    }
+    .trust-label { font-size: 0.9rem; color: var(--mid); line-height: 1.4; }
+
+    .pay-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      min-height: 70vh;
+    }
+
+    .pkg-col {
+      padding: 2.5rem 3rem 3rem 2.5rem;
+      border-right: 1px solid var(--border);
+    }
+    .col-label {
+      font-family: var(--font-display);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .col-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .pkg-group-label {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid);
+      padding: 0.6rem 0 0.5rem;
+      margin-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .pkg-group-label:first-of-type { border-top: none; margin-top: 0; }
+
+    .pkg-list { display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .pkg-card {
+      border: 1.5px solid var(--border-md);
+      border-radius: 6px;
+      padding: 1.1rem 1.3rem;
+      cursor: pointer;
+      transition: border-color 0.14s, background 0.14s;
+      position: relative;
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 1rem;
+    }
+    .pkg-card:hover { border-color: #888; }
+    .pkg-card.selected { border-color: var(--accent); background: var(--accent); color: #fff; }
+    .pkg-card input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+
+    .pkg-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+    .pkg-type { font-size: 0.88rem; color: var(--mid); margin-top: 2px; }
+    .pkg-card.selected .pkg-type { color: rgba(255,255,255,0.6); }
+    .pkg-desc-text { font-size: 0.92rem; color: var(--mid); margin-top: 0.3rem; line-height: 1.5; }
+    .pkg-card.selected .pkg-desc-text { color: rgba(255,255,255,0.6); }
+
+    .pkg-price { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; text-align: right; white-space: nowrap; }
+    .pkg-half-price { font-size: 0.78rem; font-weight: 400; font-family: var(--font-body); text-align: right; white-space: nowrap; opacity: 0.7; margin-top: 2px; }
+    .pkg-card.selected .pkg-price { color: #fff; }
+    .pkg-card.selected .pkg-half-price { color: rgba(255,255,255,0.75); }
+
+    .pkg-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--mid); flex-shrink: 0; margin-top: 5px; transition: background 0.14s, border-color 0.14s; }
+    .pkg-card.selected .pkg-dot { background: #fff; border-color: #fff; }
+
+    /* Maintenance card */
+    .pkg-card.maintenance-card { border-style: dashed; border-color: var(--mid); background: var(--off); }
+    .pkg-card.maintenance-card:hover { border-color: var(--accent); border-style: dashed; }
+    .pkg-card.maintenance-card.selected { border-color: var(--accent); border-style: dashed; background: var(--accent); }
+    .maintenance-badge { display: inline-block; font-size: 0.68rem; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: var(--accent-light); color: var(--accent); border-radius: 3px; padding: 2px 6px; margin-bottom: 4px; }
+    .pkg-card.selected .maintenance-badge { background: rgba(255,255,255,0.2); color: #fff; }
+
+    .no-maint-notice {
+      margin-top: 1.2rem;
+      padding: 0.85rem 1rem;
+      background: var(--warn-bg);
+      border: 1.5px solid rgba(122,92,0,0.2);
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: var(--warn);
+      line-height: 1.55;
+    }
+    .no-maint-notice strong { font-weight: 600; }
+
+    .maint-tick-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      background: var(--off);
+      border: 1.5px solid var(--border-md);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .maint-tick-wrap input[type="checkbox"] { margin-top: 2px; accent-color: var(--accent); width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; }
+    .maint-tick-label { font-size: 0.88rem; color: #444; line-height: 1.55; cursor: pointer; }
+    .maint-tick-label strong { color: var(--black); font-weight: 600; }
+
+    .includes-block { margin-top: 2rem; padding: 1.2rem 1.4rem; background: var(--off); border-radius: 6px; }
+    .includes-label { font-family: var(--font-display); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.8rem; }
+    .includes-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.92rem; color: #555; }
+    .includes-list li::before { content: '—'; margin-right: 0.5rem; color: var(--accent); font-weight: 700; }
+
+    .checkout-col { padding: 2.5rem 2.5rem 3rem; background: var(--off); display: flex; flex-direction: column; }
+
+    /* Contact fields */
+    .contact-fields { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.2rem; }
+    .contact-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .field-wrap { display: flex; flex-direction: column; gap: 0.3rem; }
+    .field-label { font-family: var(--font-display); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+    .field-input { padding: 0.65rem 0.9rem; border: 1.5px solid var(--border-md); border-radius: 5px; font-family: var(--font-body); font-size: 0.92rem; background: var(--white); color: var(--black); outline: none; transition: border-color 0.14s; }
+    .field-input:focus { border-color: var(--accent); }
+    .field-input::placeholder { color: var(--mid); }
+
+    .summary-box { background: var(--white); border-radius: 6px; border: 1px solid var(--border); padding: 1.2rem 1.3rem; margin-bottom: 1.2rem; }
+    .summary-line { display: flex; justify-content: space-between; font-size: 0.92rem; padding: 0.35rem 0; border-bottom: 1px solid var(--border); }
+    .summary-line:last-child { border-bottom: none; }
+    .summary-line.total-line { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; padding-top: 0.6rem; margin-top: 0.2rem; }
+    .summary-line.discount-line { color: var(--success); display: none; }
+    .sum-label { color: var(--mid); }
+    .summary-line.total-line .sum-label { color: var(--black); }
+    .deposit-note { margin-top: 0.9rem; padding: 0.7rem 0.9rem; background: var(--accent-light); border-radius: 4px; font-size: 0.88rem; color: #1a2e80; line-height: 1.55; }
+
+    .pay-type-toggle { display: grid; grid-template-columns: 1fr 1fr; border: 1.5px solid var(--border-md); border-radius: 6px; overflow: hidden; margin-bottom: 1rem; background: var(--white); }
+    .toggle-btn { padding: 0.7rem; font-family: var(--font-display); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; border: none; background: transparent; color: var(--mid); cursor: pointer; transition: background 0.13s, color 0.13s; }
+    .toggle-btn:first-child { border-right: 1px solid var(--border-md); }
+    .toggle-btn.active { background: var(--accent); color: #fff; }
+
+    /* hide deposit toggle for maintenance */
+    .maint-mode .pay-type-toggle { display: none; }
+    .maint-mode .charge-note { display: none; }
+    .maint-mode .discount-wrap { display: none; }
+    .maint-mode .deposit-note { display: none; }
+
+    .charge-note { text-align: center; font-size: 0.88rem; color: var(--mid); margin-bottom: 1.2rem; }
+    .charge-note strong { color: var(--black); font-weight: 500; }
+
+    .discount-wrap { display: flex; gap: 0.4rem; margin-bottom: 0.5rem; }
+    .discount-input { flex: 1; padding: 0.65rem 0.9rem; border: 1.5px solid var(--border-md); border-radius: 5px; font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; background: var(--white); color: var(--black); outline: none; transition: border-color 0.14s; }
+    .discount-input::placeholder { text-transform: none; letter-spacing: 0; font-weight: 400; font-family: var(--font-body); color: var(--mid); }
+    .discount-input:focus { border-color: var(--accent); }
+    .discount-btn { padding: 0.65rem 1.1rem; font-family: var(--font-display); font-size: 0.82rem; font-weight: 700; border: 1.5px solid var(--accent); border-radius: 5px; background: var(--white); color: var(--accent); cursor: pointer; transition: background 0.13s, color 0.13s; white-space: nowrap; }
+    .discount-btn:hover { background: var(--accent); color: #fff; }
+
+    .discount-msg { font-size: 0.88rem; padding: 0.5rem 0.75rem; border-radius: 4px; margin-bottom: 0.8rem; display: none; }
+    .discount-msg.ok { background: var(--success-bg); color: var(--success); display: block; }
+    .discount-msg.err { background: var(--error-bg); color: var(--error); display: block; }
+
+    #stripe-mount { border: 1.5px solid var(--border-md); border-radius: 6px; padding: 1rem; background: var(--white); margin-bottom: 1.2rem; min-height: 150px; }
+    .stripe-placeholder { font-size: 0.92rem; color: var(--mid); text-align: center; padding: 2rem 0; }
+
+    .pay-btn { width: 100%; padding: 1.05rem; font-family: var(--font-display); font-size: 1rem; font-weight: 800; letter-spacing: 0.04em; background: var(--accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; transition: background 0.14s, transform 0.1s; }
+    .pay-btn:hover { background: var(--accent-hover); }
+    .pay-btn:active { transform: scale(0.99); }
+    .pay-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    #pay-error { font-size: 0.88rem; color: var(--error); background: var(--error-bg); border-radius: 4px; padding: 0.6rem 0.8rem; margin-top: 0.8rem; display: none; }
+
+    .secure-foot { display: flex; align-items: center; gap: 5px; justify-content: center; font-size: 0.82rem; color: var(--mid); margin-top: 0.9rem; }
+    .secure-foot svg { width: 11px; height: 11px; stroke: var(--mid); }
+
+    .pay-success { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem 1.5rem; gap: 1rem; }
+    .success-icon { width: 56px; height: 56px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; }
+    .success-icon svg { width: 24px; height: 24px; stroke: #fff; }
+    .success-head { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; }
+    .success-sub { font-size: 0.95rem; color: var(--mid); max-width: 280px; line-height: 1.55; }
+
+    .site-footer { border-top: 1px solid var(--border); padding: 1.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .footer-brand { font-family: var(--font-display); font-size: 0.88rem; font-weight: 700; }
+    .footer-copy { font-size: 0.82rem; color: var(--mid); }
+    .footer-copy a { color: var(--mid); }
+    .footer-byline { font-size: 0.75rem; color: rgba(154,150,144,0.55); }
+    .footer-byline a { color: inherit; text-decoration: none; }
+    .footer-byline a:hover { color: var(--mid); }
+
+    @media (max-width: 780px) {
+      .pay-grid { grid-template-columns: 1fr; }
+      .pkg-col { padding: 1.5rem; border-right: none; border-bottom: 1px solid var(--border); }
+      .checkout-col { padding: 1.5rem; }
+      .trust-row { flex-wrap: wrap; }
+      .trust-item { flex: 1 0 45%; }
+      .site-footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .hero-strip { padding: 2.5rem 1.5rem; }
+      .hero-strip::after { display: none; }
+      .contact-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="/" class="logo">buildwithlase</a>
+    <span class="header-tag">Secure Checkout</span>
+    <div class="secure-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      Secured by Stripe
+    </div>
+  </header>
+
+  <div class="hero-strip">
+    <p class="hero-eyebrow">Website Services</p>
+    <h1 class="hero-title">Let's get your <em>site moving.</em></h1>
+    <p class="hero-sub">Select your package, apply a discount code if you have one, and pay securely. I'll be in touch within 48 hours.</p>
+  </div>
+
+  <div class="trust-row">
+    <div class="trust-item">
+      <span class="trust-val">50%</span>
+      <span class="trust-label">deposit to start, rest before launch</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-val">2-3 weeks</span>
+      <span class="trust-label">delivery after content received</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-val">2 rounds</span>
+      <span class="trust-label">revisions included</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-val">Full</span>
+      <span class="trust-label">handover of files &amp; login details</span>
+    </div>
+  </div>
+
+  <div class="pay-grid">
+
+    <div class="pkg-col">
+      <p class="col-label">01 — Choose your package</p>
+      <div class="pkg-list">
+
+        <p class="pkg-group-label">Personal &amp; Individual</p>
+
+        <label class="pkg-card selected" data-price="250" data-id="personal_single" data-maint="false">
+          <input type="radio" name="pkg" value="personal_single" checked/>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div class="pkg-dot"></div>
+            <div>
+              <p class="pkg-name">Single Page</p>
+              <p class="pkg-type">Long-scroll · Personal / Individual</p>
+              <p class="pkg-desc-text">Everything on one elegant scrolling page. Great for portfolios, personal brands and solo freelancers.</p>
+            </div>
+          </div>
+          <div>
+            <p class="pkg-price">£250</p>
+            <p class="pkg-half-price">or £125 deposit</p>
+          </div>
+        </label>
+
+        <label class="pkg-card" data-price="350" data-id="personal_multi" data-maint="false">
+          <input type="radio" name="pkg" value="personal_multi"/>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div class="pkg-dot"></div>
+            <div>
+              <p class="pkg-name">Multi-Page</p>
+              <p class="pkg-type">Up to 5 pages · Personal / Individual</p>
+              <p class="pkg-desc-text">Home, About, Services, Contact and more. For individuals who need room to say more.</p>
+            </div>
+          </div>
+          <div>
+            <p class="pkg-price">£350</p>
+            <p class="pkg-half-price">or £175 deposit</p>
+          </div>
+        </label>
+
+        <p class="pkg-group-label">Business &amp; Organisations</p>
+
+        <label class="pkg-card" data-price="400" data-id="business_single" data-maint="false">
+          <input type="radio" name="pkg" value="business_single"/>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div class="pkg-dot"></div>
+            <div>
+              <p class="pkg-name">Single Page</p>
+              <p class="pkg-type">Long-scroll · Business / Organisation</p>
+              <p class="pkg-desc-text">A focused, high-impact page for businesses, churches, and community organisations.</p>
+            </div>
+          </div>
+          <div>
+            <p class="pkg-price">£400</p>
+            <p class="pkg-half-price">or £200 deposit</p>
+          </div>
+        </label>
+
+        <label class="pkg-card" data-price="500" data-id="business_multi" data-maint="false">
+          <input type="radio" name="pkg" value="business_multi"/>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div class="pkg-dot"></div>
+            <div>
+              <p class="pkg-name">Multi-Page</p>
+              <p class="pkg-type">Up to 5 pages · Business / Organisation</p>
+              <p class="pkg-desc-text">A complete website for businesses and organisations; services, team, about, and contact pages.</p>
+            </div>
+          </div>
+          <div>
+            <p class="pkg-price">£500</p>
+            <p class="pkg-half-price">or £250 deposit</p>
+          </div>
+        </label>
+
+        <p class="pkg-group-label">Ongoing Maintenance</p>
+
+        <label class="pkg-card maintenance-card" data-price="60" data-id="maintenance" data-maint="true">
+          <input type="radio" name="pkg" value="maintenance"/>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div class="pkg-dot"></div>
+            <div>
+              <span class="maintenance-badge">Add-on</span>
+              <p class="pkg-name">Monthly Maintenance</p>
+              <p class="pkg-type">Ongoing · Existing sites only</p>
+              <p class="pkg-desc-text">Covers minor text &amp; content updates, up to 10 image swaps, one small layout tweak and keeping your site live &amp; healthy. Does not include new pages or redesigns.</p>
+            </div>
+          </div>
+          <div>
+            <p class="pkg-price">£60<span style="font-size:0.9rem;font-weight:400">/mo</span></p>
+          </div>
+        </label>
+
+      </div>
+
+      <!-- Maintenance notice + tick — shown/hidden by JS -->
+      <div class="no-maint-notice" id="noMaintNotice">
+        <strong>⚠ Maintenance is not included in any package.</strong> All four packages cover the build only. Once your site is live, ongoing updates, content changes and maintenance are charged separately. If you'd like that cover, select Monthly Maintenance above.
+      </div>
+
+      <div class="maint-tick-wrap" id="maintTickWrap" style="display:none;">
+        <input type="checkbox" id="maintAck"/>
+        <label class="maint-tick-label" for="maintAck">
+          <strong>I understand that my website package does not include maintenance.</strong> I understand that the Monthly Maintenance add-on covers minor content and image updates only. New pages and redesigns are not included.
+        </label>
+      </div>
+
+      <div class="includes-block">
+        <p class="includes-label">Every build package includes</p>
+        <ul class="includes-list">
+          <li>Mobile-responsive design</li>
+          <li>Basic SEO setup</li>
+          <li>Contact form</li>
+          <li>Social media links</li>
+          <li>2 rounds of revisions</li>
+          <li>Full project handover &amp; login details</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="checkout-col">
+      <p class="col-label">02 — Pay</p>
+
+      <div class="pay-success" id="paySuccess">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <p class="success-head">Payment received.</p>
+        <p class="success-sub">Thank you. Your project will be kicked off soon.</p>
+        <p style="font-size:0.85rem;color:var(--mid);">Receipt sent to your email.</p>
+      </div>
+
+      <div id="payForm">
+
+        <!-- Contact fields -->
+        <div class="contact-fields">
+          <div class="contact-row">
+            <div class="field-wrap">
+              <label class="field-label" for="fieldFirst">First Name</label>
+              <input class="field-input" type="text" id="fieldFirst" placeholder="e.g. Amara" autocomplete="given-name"/>
+            </div>
+            <div class="field-wrap">
+              <label class="field-label" for="fieldLast">Surname</label>
+              <input class="field-input" type="text" id="fieldLast" placeholder="e.g. Okonkwo" autocomplete="family-name"/>
+            </div>
+          </div>
+          <div class="field-wrap">
+            <label class="field-label" for="fieldPhone">Contact Number</label>
+            <input class="field-input" type="tel" id="fieldPhone" placeholder="e.g. 07700 900000" autocomplete="tel"/>
+          </div>
+        </div>
+
+        <div class="summary-box">
+          <div class="summary-line">
+            <span class="sum-label" id="sumPkg">Personal: Single Page</span>
+            <span id="sumBasePrice">£250.00</span>
+          </div>
+          <div class="summary-line discount-line" id="sumDiscLine">
+            <span class="sum-label">Discount</span>
+            <span id="sumDiscAmt">−£0.00</span>
+          </div>
+          <div class="summary-line total-line">
+            <span class="sum-label">Total</span>
+            <span id="sumTotal">£250.00</span>
+          </div>
+          <div class="deposit-note" id="depositNote">
+            Paying <strong>50% deposit</strong> today: <strong id="depositAmt">£125.00</strong>. Remaining <span id="remainAmt">£125.00</span> due before launch.
+          </div>
+        </div>
+
+        <div class="pay-type-toggle" id="payTypeToggle">
+          <button class="toggle-btn active" id="btnDeposit" onclick="setType('deposit')">Pay 50% Deposit</button>
+          <button class="toggle-btn" id="btnFull" onclick="setType('full')">Pay in Full</button>
+        </div>
+        <p class="charge-note" id="chargeNote">Charging today: <strong id="chargeDisplay">£125.00</strong></p>
+
+        <div class="discount-wrap" id="discountWrap">
+          <input type="text" class="discount-input" id="discInput" placeholder="Discount code" maxlength="20"/>
+          <button class="discount-btn" onclick="applyDiscount()">Apply</button>
+        </div>
+        <div class="discount-msg" id="discMsg"></div>
+
+        <div id="stripe-mount">
+          <p class="stripe-placeholder">Loading secure payment form…</p>
+        </div>
+
+        <button class="pay-btn" id="payBtn" disabled>
+          Pay <span id="btnAmt">£125.00</span> : Confirm
+        </button>
+        <div id="pay-error"></div>
+
+        <div class="secure-foot">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Secured by Stripe &nbsp;·&nbsp; No card details stored by buildwithlase
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p class="footer-brand">buildwithlase</p>
+    <p class="footer-copy">&copy; 2026 buildwithlase. Questions? <a href="mailto:lase.zlkfl@gmail.com">lase.zlkfl@gmail.com</a></p>
+    <p class="footer-byline">Built by <a href="https://toluwalase.com" target="_blank" rel="noopener">toluwalase.com</a></p>
+  </footer>
+
+<script>
+const STRIPE_KEY = 'pk_live_51TeKNHEn65MJH1X7Ni7AcVPSphmy8sn9aC6vvd5i7qbnqsMdAGc5m9v2MaEDu59QR1CFVM7kk8IhTTwfNVfpyjed00PReKtZeh';
+
+const DISCOUNT_CODES = {
+  'CHURCH20':  { type: 'percent', value: 20,  label: '20% off for church & community organisations' },
+  'EARLY10':   { type: 'fixed',   value: 10,  label: '£10 early bird discount' },
+  'FRIEND50':  { type: 'fixed',   value: 50,  label: '£50 referral discount' },
+  'WELCOME15': { type: 'percent', value: 15,  label: '15% welcome discount' },
+};
+
+const PKG_LABELS = {
+  personal_single: 'Personal : Single Page',
+  personal_multi:  'Personal : Multi-Page',
+  business_single: 'Business : Single Page',
+  business_multi:  'Business : Multi-Page',
+  maintenance:     'Monthly Maintenance',
+};
+
+let S = { id: 'personal_single', base: 250, disc: 0, type: 'deposit', isMaint: false };
+let stripe, elements;
+
+function total() { return Math.max(S.base - S.disc, 0); }
+function charge() {
+  const t = total();
+  if (S.isMaint) return t;
+  return S.type === 'deposit' ? t / 2 : t;
+}
+function fmt(n) { return '£' + n.toFixed(2); }
+
+function refresh() {
+  const t = total(), c = charge(), r = t - c;
+  document.getElementById('sumPkg').textContent = PKG_LABELS[S.id];
+  document.getElementById('sumBasePrice').textContent = fmt(S.base);
+
+  const dl = document.getElementById('sumDiscLine');
+  dl.style.display = S.disc > 0 ? 'flex' : 'none';
+  document.getElementById('sumDiscAmt').textContent = '−' + fmt(S.disc);
+  document.getElementById('sumTotal').textContent = fmt(t);
+
+  const chargeDisp = document.getElementById('chargeDisplay');
+  const btnAmt = document.getElementById('btnAmt');
+  chargeDisp.textContent = fmt(c);
+  btnAmt.textContent = fmt(c);
+
+  const dn = document.getElementById('depositNote');
+  if (S.isMaint) {
+    dn.innerHTML = 'Monthly recurring charge. You will be invoiced each month.';
+    document.getElementById('payTypeToggle').style.display = 'none';
+    document.getElementById('chargeNote').style.display = 'none';
+    document.getElementById('discountWrap').style.display = 'none';
+    document.getElementById('maintTickWrap').style.display = 'flex';
+    document.getElementById('noMaintNotice').style.display = 'none';
+  } else {
+    dn.innerHTML = S.type === 'deposit'
+      ? `Paying <strong>50% deposit</strong> today: <strong>${fmt(c)}</strong>. Remaining <span>${fmt(r)}</span> due before launch.`
+      : 'Paying the <strong>full amount</strong> today. No further payment required.';
+    document.getElementById('payTypeToggle').style.display = 'grid';
+    document.getElementById('chargeNote').style.display = 'block';
+    document.getElementById('discountWrap').style.display = 'flex';
+    document.getElementById('maintTickWrap').style.display = 'none';
+    document.getElementById('noMaintNotice').style.display = 'block';
+  }
+
+  initStripe(Math.round(c * 100));
+}
+
+document.querySelectorAll('.pkg-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    card.querySelector('input').checked = true;
+    S.id = card.dataset.id;
+    S.base = parseInt(card.dataset.price);
+    S.isMaint = card.dataset.maint === 'true';
+    S.disc = 0;
+    document.getElementById('discInput').value = '';
+    const dm = document.getElementById('discMsg');
+    dm.className = 'discount-msg';
+    dm.textContent = '';
+    // reset maintenance ack
+    document.getElementById('maintAck').checked = false;
+    refresh();
+  });
+});
+
+function setType(t) {
+  S.type = t;
+  document.getElementById('btnDeposit').classList.toggle('active', t === 'deposit');
+  document.getElementById('btnFull').classList.toggle('active', t === 'full');
+  refresh();
+}
+
+function applyDiscount() {
+  const code = document.getElementById('discInput').value.trim().toUpperCase();
+  const dm = document.getElementById('discMsg');
+  if (!code) { dm.className='discount-msg err'; dm.textContent='Please enter a code.'; return; }
+  const def = DISCOUNT_CODES[code];
+  if (!def) {
+    dm.className='discount-msg err';
+    dm.textContent='Code not recognised. Check and try again.';
+    S.disc = 0; refresh(); return;
+  }
+  S.disc = def.type === 'percent'
+    ? Math.round(S.base * def.value) / 100
+    : Math.min(def.value, S.base);
+  dm.className='discount-msg ok';
+  dm.textContent='✓ ' + def.label + ' — saving ' + fmt(S.disc);
+  refresh();
+}
+
+document.getElementById('discInput').addEventListener('keydown', e => { if (e.key==='Enter') applyDiscount(); });
+
+let stripeInitialised = false;
+
+async function initStripe(pence) {
+  const mount = document.getElementById('stripe-mount');
+
+  if (!stripe) {
+    try { stripe = Stripe(STRIPE_KEY); } catch(e) {
+      mount.innerHTML = '<p style="font-size:0.88rem;color:var(--error);text-align:center;padding:1.5rem 0;">Stripe failed to load. Please refresh.</p>';
+      return;
+    }
+  }
+
+  try {
+    const res = await fetch('/.netlify/functions/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: pence, currency: 'gbp', package: S.id, paymentType: S.isMaint ? 'maintenance' : S.type })
+    });
+
+    if (!res.ok) throw new Error('Function returned ' + res.status);
+
+    const { clientSecret, error: apiError } = await res.json();
+    if (apiError) throw new Error(apiError);
+
+    elements = stripe.elements({ clientSecret, appearance: {
+      theme: 'flat',
+      variables: {
+        colorPrimary: '#2152e8',
+        colorBackground: '#ffffff',
+        colorText: '#0d0d0d',
+        colorDanger: '#9c2c2c',
+        fontFamily: "'DM Sans', system-ui, sans-serif",
+        borderRadius: '5px',
+        fontSizeBase: '14px',
+      },
+      rules: {
+        '.Input': { border: '1.5px solid rgba(13,13,13,0.18)', padding: '10px 12px' },
+        '.Input:focus': { border: '1.5px solid #2152e8', outline: '2px solid rgba(33,82,232,0.12)' },
+        '.Label': { fontWeight: '500', fontSize: '11px', letterSpacing: '0.1em', textTransform: 'uppercase' },
+      }
+    }});
+
+    const pe = elements.create('payment');
+    mount.innerHTML = '';
+    pe.mount('#stripe-mount');
+    pe.on('ready', () => { document.getElementById('payBtn').disabled = false; });
+
+  } catch(e) {
+    console.error('Stripe init error:', e);
+    mount.innerHTML = `<p style="font-size:0.88rem;color:var(--error);text-align:center;padding:1.5rem 0;">Could not load payment form: ${e.message}</p>`;
+  }
+}
+
+document.getElementById('payBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('payBtn');
+  const err = document.getElementById('pay-error');
+
+  // Validate contact fields
+  const first = document.getElementById('fieldFirst').value.trim();
+  const last = document.getElementById('fieldLast').value.trim();
+  const phone = document.getElementById('fieldPhone').value.trim();
+
+  if (!first || !last || !phone) {
+    err.textContent = 'Please enter your first name, surname, and contact number before paying.';
+    err.style.display = 'block';
+    return;
+  }
+
+  // Validate maintenance acknowledgement if maintenance selected
+  if (S.isMaint && !document.getElementById('maintAck').checked) {
+    err.textContent = 'Please tick the acknowledgement box before proceeding.';
+    err.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Processing…';
+  err.style.display = 'none';
+
+  const { error } = await stripe.confirmPayment({
+    elements,
+    confirmParams: {
+      return_url: window.location.origin + '/payment-confirmed',
+      payment_method_data: {
+        billing_details: { name: first + ' ' + last, phone: phone }
+      }
+    },
+    redirect: 'if_required',
+  });
+
+  if (error) {
+    err.textContent = error.message;
+    err.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = 'Pay <span id="btnAmt">' + fmt(charge()) + '</span> : Confirm';
+  } else {
+    showSuccess();
+  }
+});
+
+function showSuccess() {
+  document.getElementById('payForm').style.display = 'none';
+  document.getElementById('paySuccess').style.display = 'flex';
+}
+
+refresh();
+</script>
+</body>
