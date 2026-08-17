@@ -489,7 +489,7 @@
               <span class="maintenance-badge">Auto-renews yearly</span>
               <p class="pkg-name">Domain &amp; Email Hosting</p>
               <p class="pkg-type">Recurring · Annual</p>
-              <p class="pkg-desc-text">Domain registration and/ or renewal. <br> Custom email address(es).</p>
+              <p class="pkg-desc-text">Domain registration/renewal and custom business email addresses for committee/team members, billed automatically every year.</p>
             </div>
           </div>
           <div>
@@ -553,25 +553,17 @@
             </div>
           </div>
 
-          <div class="contact-row">
-            <div class="field-wrap">
-              <label class="field-label" for="fieldFirst" id="labelFirst">First Name</label>
-              <input class="field-input" type="text" id="fieldFirst" placeholder="e.g.Sarah" autocomplete="given-name"/>
-            </div>
-            <div class="field-wrap">
-              <label class="field-label" for="fieldLast" id="labelLast">Surname</label>
-              <input class="field-input" type="text" id="fieldLast" placeholder="e.g. Osei" autocomplete="family-name"/>
-            </div>
+          <div class="field-wrap" style="margin-bottom:0.6rem;">
+            <label class="field-label" for="fieldFullName" id="labelFullName">Full Name</label>
+            <input class="field-input" type="text" id="fieldFullName" placeholder="e.g. Jordan Smith" autocomplete="name"/>
           </div>
-          <div class="contact-row">
-            <div class="field-wrap">
-              <label class="field-label" for="fieldEmail">Email Address</label>
-              <input class="field-input" type="email" id="fieldEmail" placeholder="e.g. name@email.com" autocomplete="email"/>
-            </div>
-            <div class="field-wrap">
-              <label class="field-label" for="fieldPhone">Contact Number</label>
-              <input class="field-input" type="tel" id="fieldPhone" placeholder="e.g. 07700 900000" autocomplete="tel"/>
-            </div>
+          <div class="field-wrap" style="margin-bottom:0.6rem;">
+            <label class="field-label" for="fieldEmail">Email Address</label>
+            <input class="field-input" type="email" id="fieldEmail" placeholder="e.g. name@email.com" autocomplete="email"/>
+          </div>
+          <div class="field-wrap">
+            <label class="field-label" for="fieldPhone">Contact Number</label>
+            <input class="field-input" type="tel" id="fieldPhone" placeholder="e.g. 07700 900000" autocomplete="tel"/>
           </div>
         </div>
 
@@ -712,8 +704,7 @@ function setAccountType(t) {
   document.getElementById('btnIndividual').classList.toggle('active', t === 'individual');
   document.getElementById('btnCompany').classList.toggle('active', t === 'company');
   document.getElementById('companyFieldsWrap').style.display = t === 'company' ? 'block' : 'none';
-  document.getElementById('labelFirst').textContent = t === 'company' ? 'Contact First Name' : 'First Name';
-  document.getElementById('labelLast').textContent = t === 'company' ? 'Contact Surname' : 'Surname';
+  document.getElementById('labelFullName').textContent = t === 'company' ? 'Contact Person Name' : 'Full Name';
 }
 
 function emailTierDefaultPrice() {
@@ -874,7 +865,7 @@ document.getElementById('fieldEmailTier').addEventListener('change', () => {
   refreshRecurringUI();
 });
 
-['fieldEmail', 'fieldCompanyName', 'fieldFirst', 'fieldLast'].forEach(id => {
+['fieldEmail', 'fieldCompanyName', 'fieldFullName'].forEach(id => {
   document.getElementById(id).addEventListener('change', () => { if (!S.isRecurring) refresh(); });
 });
 
@@ -893,8 +884,7 @@ async function initStripe(pence) {
   }
 
   try {
-    const first = document.getElementById('fieldFirst').value.trim();
-    const last = document.getElementById('fieldLast').value.trim();
+    const fullName = document.getElementById('fieldFullName').value.trim();
     const email = document.getElementById('fieldEmail').value.trim();
     const isCompany = ACCOUNT_TYPE === 'company';
     const companyName = document.getElementById('fieldCompanyName').value.trim();
@@ -906,8 +896,8 @@ async function initStripe(pence) {
       body: JSON.stringify({
         amount: pence, currency: 'gbp', package: S.id, paymentType: S.isMaint ? 'maintenance' : S.type,
         accountType: ACCOUNT_TYPE,
-        billingName: isCompany ? companyName : (first + ' ' + last),
-        contactName: first + ' ' + last,
+        billingName: isCompany ? companyName : fullName,
+        contactName: fullName,
         companyName: isCompany ? companyName : '',
         companyRegNo: isCompany ? companyRegNo : '',
         customerEmail: email,
@@ -949,7 +939,7 @@ async function initStripe(pence) {
       mode: 'billing',
       fields: { phone: 'never' },
       defaultValues: {
-        name: (first + ' ' + last).trim() || undefined,
+        name: fullName || undefined,
       },
     });
     addrMount.innerHTML = '';
@@ -966,16 +956,15 @@ document.getElementById('payBtn').addEventListener('click', async () => {
   const err = document.getElementById('pay-error');
 
   // Validate contact fields
-  const first = document.getElementById('fieldFirst').value.trim();
-  const last = document.getElementById('fieldLast').value.trim();
+  const fullName = document.getElementById('fieldFullName').value.trim();
   const email = document.getElementById('fieldEmail').value.trim();
   const phone = document.getElementById('fieldPhone').value.trim();
   const companyName = document.getElementById('fieldCompanyName').value.trim();
   const companyRegNo = document.getElementById('fieldCompanyRegNo').value.trim();
   const isCompany = ACCOUNT_TYPE === 'company';
 
-  if (!first || !last || !email || !phone) {
-    err.textContent = 'Please enter your first name, surname, email, and contact number before paying.';
+  if (!fullName || !email || !phone) {
+    err.textContent = 'Please enter your full name, email, and contact number before paying.';
     err.style.display = 'block';
     return;
   }
@@ -990,7 +979,7 @@ document.getElementById('payBtn').addEventListener('click', async () => {
     return;
   }
 
-  const billingName = isCompany ? companyName : (first + ' ' + last);
+  const billingName = isCompany ? companyName : fullName;
 
   if (S.isRecurring) {
     const domainName = document.getElementById('fieldDomainName').value.trim();
@@ -1029,7 +1018,7 @@ document.getElementById('payBtn').addEventListener('click', async () => {
           domainName, includeDomain, domainPriceGBP: domainPrice,
           includeEmail, emailTier, emailUnitPriceGBP: emailUnitPrice, mailboxQty,
           accountType: ACCOUNT_TYPE,
-          billingName, contactName: first + ' ' + last,
+          billingName, contactName: fullName,
           companyName: isCompany ? companyName : '',
           companyRegNo: isCompany ? companyRegNo : '',
           customerEmail: email, customerPhone: phone,
