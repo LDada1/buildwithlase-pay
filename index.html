@@ -1065,7 +1065,7 @@ document.getElementById('payBtn').addEventListener('click', async () => {
   const { error } = await stripe.confirmPayment({
     elements,
     confirmParams: {
-      return_url: window.location.origin + '/payment-confirmed',
+      return_url: window.location.origin + '/',
       payment_method_data: {
         billing_details: { name: billingName, email: email, phone: phone, address: billingAddress }
       }
@@ -1094,10 +1094,29 @@ document.getElementById('payBtn').addEventListener('click', async () => {
   }
 });
 
-function showSuccess() {
+function showSuccess(opts) {
+  if (opts && opts.head) document.querySelector('#paySuccess .success-head').textContent = opts.head;
+  if (opts && opts.sub) document.querySelector('#paySuccess .success-sub').textContent = opts.sub;
   document.getElementById('payForm').style.display = 'none';
   document.getElementById('paySuccess').style.display = 'flex';
 }
+
+// If we've just landed back here after a Stripe redirect (3-D Secure on a
+// one-off payment, or the hosted Checkout page for a subscription), show
+// the success screen straight away instead of the blank package form.
+(function checkReturnFromStripe() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('redirect_status') === 'succeeded') {
+    showSuccess();
+    window.history.replaceState({}, document.title, window.location.pathname);
+  } else if (params.get('sub_success') === '1') {
+    showSuccess({
+      head: 'Subscription set up.',
+      sub: 'Thank you — your annual billing is now active and will renew automatically.'
+    });
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+})();
 
 refresh();
 </script>

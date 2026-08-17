@@ -129,7 +129,7 @@ exports.handler = async (event) => {
       // it back onto the Customer record we just created, so invoices carry
       // a full postal address without us building our own address form.
       customer_update: { address: 'auto', name: 'auto' },
-      success_url: origin + '/payment-confirmed?session_id={CHECKOUT_SESSION_ID}',
+      success_url: origin + '/?sub_success=1&session_id={CHECKOUT_SESSION_ID}',
       cancel_url: origin + '/',
       phone_number_collection: { enabled: true },
       billing_address_collection: 'required',
