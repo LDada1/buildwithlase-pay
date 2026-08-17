@@ -2,3 +2,8 @@
   from = "/api/create-payment-intent"
   to = "/.netlify/functions/create-payment-intent"
   status = 200
+
+[[redirects]]
+  from = "/api/create-subscription-checkout"
+  to = "/.netlify/functions/create-subscription-checkout"
+  status = 200

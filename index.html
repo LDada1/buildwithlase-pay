@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pay · 'Lase Web Services</title>
-  <meta name="description" content="Secure payment for your website project with 'Lase. Professional websites for individuals, businesses and organisations."/>
+  <title>Pay · buildwithlase</title>
+  <meta name="description" content="Secure payment for your website project with buildwithlase. Professional websites for individuals, businesses and organisations."/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -26,6 +26,8 @@
       --success: #1a7a3c;
       --error-bg: #fceaea;
       --error: #9c2c2c;
+      --warn-bg: #fff8e1;
+      --warn: #7a5c00;
       --font-display: 'Syne', sans-serif;
       --font-body: 'DM Sans', sans-serif;
     }
@@ -116,7 +118,7 @@
     .hero-sub {
       font-size: 1rem;
       color: rgba(245,245,242,0.6);
-      max-width: 420px;
+      max-width: 850px;
       line-height: 1.65;
     }
 
@@ -208,10 +210,55 @@
     .pkg-card.selected .pkg-desc-text { color: rgba(255,255,255,0.6); }
 
     .pkg-price { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; text-align: right; white-space: nowrap; }
+    .pkg-half-price { font-size: 0.78rem; font-weight: 400; font-family: var(--font-body); text-align: right; white-space: nowrap; opacity: 0.7; margin-top: 2px; }
     .pkg-card.selected .pkg-price { color: #fff; }
+    .pkg-card.selected .pkg-half-price { color: rgba(255,255,255,0.75); }
 
     .pkg-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--mid); flex-shrink: 0; margin-top: 5px; transition: background 0.14s, border-color 0.14s; }
     .pkg-card.selected .pkg-dot { background: #fff; border-color: #fff; }
+
+    /* Maintenance card */
+    .pkg-card.maintenance-card { border-style: dashed; border-color: var(--mid); background: var(--off); }
+    .pkg-card.maintenance-card:hover { border-color: var(--accent); border-style: dashed; }
+    .pkg-card.maintenance-card.selected { border-color: var(--accent); border-style: dashed; background: var(--accent); }
+    .maintenance-badge { display: inline-block; font-size: 0.68rem; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: var(--accent-light); color: var(--accent); border-radius: 3px; padding: 2px 6px; margin-bottom: 4px; }
+    .pkg-card.selected .maintenance-badge { background: rgba(255,255,255,0.2); color: #fff; }
+
+    .no-maint-notice {
+      margin-top: 1.2rem;
+      padding: 0.85rem 1rem;
+      background: var(--warn-bg);
+      border: 1.5px solid rgba(122,92,0,0.2);
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: var(--warn);
+      line-height: 1.55;
+    }
+    .no-maint-notice strong { font-weight: 600; }
+
+    .maint-tick-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      background: var(--off);
+      border: 1.5px solid var(--border-md);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .maint-tick-wrap input[type="checkbox"] { margin-top: 2px; accent-color: var(--accent); width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; }
+    .maint-tick-label { font-size: 0.88rem; color: #444; line-height: 1.55; cursor: pointer; }
+    .maint-tick-label strong { color: var(--black); font-weight: 600; }
+
+    /* Recurring subscription fields */
+    .recurring-fields { display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 1.2rem; }
+    .recurring-line-toggle { background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 0.9rem 1rem; display: flex; flex-direction: column; gap: 0.7rem; }
+    .recurring-line-toggle > label { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-display); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--black); cursor: pointer; }
+    .recurring-line-toggle input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+    .recurring-note { font-size: 0.82rem; color: var(--mid); background: var(--accent-light); border-radius: 4px; padding: 0.6rem 0.85rem; line-height: 1.5; }
+
+    #billingAddressWrap { margin-bottom: 1.2rem; }
 
     .includes-block { margin-top: 2rem; padding: 1.2rem 1.4rem; background: var(--off); border-radius: 6px; }
     .includes-label { font-family: var(--font-display); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.8rem; }
@@ -219,6 +266,15 @@
     .includes-list li::before { content: '—'; margin-right: 0.5rem; color: var(--accent); font-weight: 700; }
 
     .checkout-col { padding: 2.5rem 2.5rem 3rem; background: var(--off); display: flex; flex-direction: column; }
+
+    /* Contact fields */
+    .contact-fields { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.2rem; }
+    .contact-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .field-wrap { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+    .field-label { font-family: var(--font-display); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+    .field-input { width: 100%; padding: 0.65rem 0.9rem; border: 1.5px solid var(--border-md); border-radius: 5px; font-family: var(--font-body); font-size: 0.92rem; background: var(--white); color: var(--black); outline: none; transition: border-color 0.14s; }
+    .field-input:focus { border-color: var(--accent); }
+    .field-input::placeholder { color: var(--mid); }
 
     .summary-box { background: var(--white); border-radius: 6px; border: 1px solid var(--border); padding: 1.2rem 1.3rem; margin-bottom: 1.2rem; }
     .summary-line { display: flex; justify-content: space-between; font-size: 0.92rem; padding: 0.35rem 0; border-bottom: 1px solid var(--border); }
@@ -233,6 +289,12 @@
     .toggle-btn { padding: 0.7rem; font-family: var(--font-display); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; border: none; background: transparent; color: var(--mid); cursor: pointer; transition: background 0.13s, color 0.13s; }
     .toggle-btn:first-child { border-right: 1px solid var(--border-md); }
     .toggle-btn.active { background: var(--accent); color: #fff; }
+
+    /* hide deposit toggle for maintenance */
+    .maint-mode .pay-type-toggle { display: none; }
+    .maint-mode .charge-note { display: none; }
+    .maint-mode .discount-wrap { display: none; }
+    .maint-mode .deposit-note { display: none; }
 
     .charge-note { text-align: center; font-size: 0.88rem; color: var(--mid); margin-bottom: 1.2rem; }
     .charge-note strong { color: var(--black); font-weight: 500; }
@@ -268,9 +330,12 @@
     .success-sub { font-size: 0.95rem; color: var(--mid); max-width: 280px; line-height: 1.55; }
 
     .site-footer { border-top: 1px solid var(--border); padding: 1.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; }
-    .footer-brand { font-family: var(--font-display); font-size: 0.88rem; font-weight: 700; }
+    .footer-brand { font-family: var(--font-display); font-size: 0.88rem; font-weight: 700; text-decoration: none; }
     .footer-copy { font-size: 0.82rem; color: var(--mid); }
     .footer-copy a { color: var(--mid); }
+    .footer-byline { font-size: 0.75rem; color: rgba(154,150,144,0.55); }
+    .footer-byline a { color: inherit; text-decoration: underline; font-size: 1.1em; font-weight: bold; }
+    .footer-byline a:hover { color: var(--mid); }
 
     @media (max-width: 780px) {
       .pay-grid { grid-template-columns: 1fr; }
@@ -281,13 +346,13 @@
       .site-footer { flex-direction: column; gap: 0.5rem; text-align: center; }
       .hero-strip { padding: 2.5rem 1.5rem; }
       .hero-strip::after { display: none; }
+      .contact-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
   <header class="site-header">
-    <a href="/" class="logo">'lase</a>
     <span class="header-tag">Secure Checkout</span>
     <div class="secure-badge">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -299,8 +364,8 @@
 
   <div class="hero-strip">
     <p class="hero-eyebrow">Website Services</p>
-    <h1 class="hero-title">Let's get your<br><em>site moving.</em></h1>
-    <p class="hero-sub">Select your package, apply a discount code if you have one, and pay securely. I'll be in touch within 48 hours.</p>
+    <h1 class="hero-title">Let's get your <em>site moving.</em></h1>
+    <p class="hero-sub">Select your package, apply a discount code if you have one and pay securely. </p>
   </div>
 
   <div class="trust-row">
@@ -309,7 +374,7 @@
       <span class="trust-label">deposit to start, rest before launch</span>
     </div>
     <div class="trust-item">
-      <span class="trust-val">2–3 wks</span>
+      <span class="trust-val">2-3 weeks</span>
       <span class="trust-label">delivery after content received</span>
     </div>
     <div class="trust-item">
@@ -330,20 +395,23 @@
 
         <p class="pkg-group-label">Personal &amp; Individual</p>
 
-        <label class="pkg-card selected" data-price="200" data-id="personal_single">
+        <label class="pkg-card selected" data-price="250" data-id="personal_single" data-maint="false">
           <input type="radio" name="pkg" value="personal_single" checked/>
           <div style="display:flex;gap:10px;align-items:flex-start;">
             <div class="pkg-dot"></div>
             <div>
               <p class="pkg-name">Single Page</p>
               <p class="pkg-type">Long-scroll · Personal / Individual</p>
-              <p class="pkg-desc-text">Everything on one elegant scrolling page. Great for portfolios, personal brands, and solo freelancers.</p>
+              <p class="pkg-desc-text">Everything on one elegant scrolling page. Great for portfolios, personal brands and solo freelancers.</p>
             </div>
           </div>
-          <div><p class="pkg-price">£200</p></div>
+          <div>
+            <p class="pkg-price">£250</p>
+            <p class="pkg-half-price">£125 deposit</p>
+          </div>
         </label>
 
-        <label class="pkg-card" data-price="350" data-id="personal_multi">
+        <label class="pkg-card" data-price="350" data-id="personal_multi" data-maint="false">
           <input type="radio" name="pkg" value="personal_multi"/>
           <div style="display:flex;gap:10px;align-items:flex-start;">
             <div class="pkg-dot"></div>
@@ -353,41 +421,92 @@
               <p class="pkg-desc-text">Home, About, Services, Contact and more. For individuals who need room to say more.</p>
             </div>
           </div>
-          <div><p class="pkg-price">£350</p></div>
+          <div>
+            <p class="pkg-price">£350</p>
+            <p class="pkg-half-price">£175 deposit</p>
+          </div>
         </label>
 
         <p class="pkg-group-label">Business &amp; Organisations</p>
 
-        <label class="pkg-card" data-price="400" data-id="business_single">
+        <label class="pkg-card" data-price="400" data-id="business_single" data-maint="false">
           <input type="radio" name="pkg" value="business_single"/>
           <div style="display:flex;gap:10px;align-items:flex-start;">
             <div class="pkg-dot"></div>
             <div>
               <p class="pkg-name">Single Page</p>
               <p class="pkg-type">Long-scroll · Business / Organisation</p>
-              <p class="pkg-desc-text">A focused, high-impact page for businesses, churches, and community organisations.</p>
+              <p class="pkg-desc-text">A focused, high-impact page for businesses, churches and community organisations.</p>
             </div>
           </div>
-          <div><p class="pkg-price">£400</p></div>
+          <div>
+            <p class="pkg-price">£400</p>
+            <p class="pkg-half-price">£200 deposit</p>
+          </div>
         </label>
 
-        <label class="pkg-card" data-price="500" data-id="business_multi">
+        <label class="pkg-card" data-price="500" data-id="business_multi" data-maint="false">
           <input type="radio" name="pkg" value="business_multi"/>
           <div style="display:flex;gap:10px;align-items:flex-start;">
             <div class="pkg-dot"></div>
             <div>
               <p class="pkg-name">Multi-Page</p>
               <p class="pkg-type">Up to 5 pages · Business / Organisation</p>
-              <p class="pkg-desc-text">A complete website for businesses and orgs — services, team, about, and contact pages.</p>
+              <p class="pkg-desc-text">A complete website for businesses and organisations; services, team, about, and contact pages.</p>
             </div>
           </div>
-          <div><p class="pkg-price">£500</p></div>
+          <div>
+            <p class="pkg-price">£500</p>
+            <p class="pkg-half-price">£250 deposit</p>
+          </div>
+        </label>
+
+        <p class="pkg-group-label">Ongoing Maintenance</p>
+
+        <label class="pkg-card maintenance-card" data-price="60" data-id="maintenance" data-maint="true">
+          <input type="radio" name="pkg" value="maintenance"/>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div class="pkg-dot"></div>
+            <div>
+              <span class="maintenance-badge">Add-on</span>
+              <p class="pkg-name"> Maintenance</p>
+              <p class="pkg-type">Ongoing · Existing sites only</p>
+              <p class="pkg-desc-text">Covers minor text &amp; content updates, up to 10 image swaps, one small layout tweak and keeping your site live &amp; healthy. Does not include new pages or redesigns.</p>
+            </div>
+          </div>
+          <div>
+            <p class="pkg-price">£60</p>
+          </div>
+        </label>
+
+        <p class="pkg-group-label">Recurring — Annual</p>
+
+        <label class="pkg-card maintenance-card" data-price="0" data-id="domain_email" data-maint="false" data-recurring="true">
+          <input type="radio" name="pkg" value="domain_email"/>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div class="pkg-dot"></div>
+            <div>
+              <span class="maintenance-badge">Auto-renews yearly</span>
+              <p class="pkg-name">Domain &amp; Email Hosting</p>
+              <p class="pkg-type">Recurring · Annual</p>
+              <p class="pkg-desc-text">Domain registration and/ or renewal. <br> Custom email address(es).</p>
+            </div>
+          </div>
+          <div>
+            <p class="pkg-price">Custom</p>
+          </div>
         </label>
 
       </div>
 
+      <!-- Maintenance notice + tick — shown/hidden by JS -->
+      <div class="no-maint-notice" id="noMaintNotice">
+        <strong>⚠ Maintenance is not included in any package.</strong> All four packages cover the build only. Once your site is live, ongoing updates, content changes and maintenance are charged separately. </div>
+
+
+
       <div class="includes-block">
-        <p class="includes-label">Every package includes</p>
+        <p class="includes-label">Every build package includes</p>
         <ul class="includes-list">
           <li>Mobile-responsive design</li>
           <li>Basic SEO setup</li>
@@ -409,16 +528,64 @@
           </svg>
         </div>
         <p class="success-head">Payment received.</p>
-        <p class="success-sub">Thank you — I'll be in touch within 1–2 working days to kick off your project.</p>
+        <p class="success-sub">Thank you. Your project will kick off soon.</p>
         <p style="font-size:0.85rem;color:var(--mid);">Receipt sent to your email.</p>
       </div>
 
       <div id="payForm">
 
+        <!-- Contact fields -->
+        <div class="contact-fields">
+
+          <div class="pay-type-toggle" id="accountTypeToggle" style="margin-bottom:0.9rem;">
+            <button type="button" class="toggle-btn active" id="btnIndividual" onclick="setAccountType('individual')">Individual</button>
+            <button type="button" class="toggle-btn" id="btnCompany" onclick="setAccountType('company')">Company / Organisation</button>
+          </div>
+
+          <div id="companyFieldsWrap" style="display:none;">
+            <div class="field-wrap" style="margin-bottom:0.6rem;">
+              <label class="field-label" for="fieldCompanyName">Company / Organisation Name</label>
+              <input class="field-input" type="text" id="fieldCompanyName" placeholder="e.g. Acme Community Trust" autocomplete="organization"/>
+            </div>
+            <div class="field-wrap" style="margin-bottom:0.6rem;">
+              <label class="field-label" for="fieldCompanyRegNo">Company Registration Number</label>
+              <input class="field-input" type="text" id="fieldCompanyRegNo" placeholder="e.g. 12345678 (optional)"/>
+            </div>
+          </div>
+
+          <div class="contact-row">
+            <div class="field-wrap">
+              <label class="field-label" for="fieldFirst" id="labelFirst">First Name</label>
+              <input class="field-input" type="text" id="fieldFirst" placeholder="e.g.Sarah" autocomplete="given-name"/>
+            </div>
+            <div class="field-wrap">
+              <label class="field-label" for="fieldLast" id="labelLast">Surname</label>
+              <input class="field-input" type="text" id="fieldLast" placeholder="e.g. Osei" autocomplete="family-name"/>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="field-wrap">
+              <label class="field-label" for="fieldEmail">Email Address</label>
+              <input class="field-input" type="email" id="fieldEmail" placeholder="e.g. name@email.com" autocomplete="email"/>
+            </div>
+            <div class="field-wrap">
+              <label class="field-label" for="fieldPhone">Contact Number</label>
+              <input class="field-input" type="tel" id="fieldPhone" placeholder="e.g. 07700 900000" autocomplete="tel"/>
+            </div>
+          </div>
+        </div>
+
+        <div id="billingAddressWrap">
+          <p class="field-label" style="margin-bottom:0.5rem;">Billing Address</p>
+          <div id="address-mount">
+            <p class="stripe-placeholder">Loading address form…</p>
+          </div>
+        </div>
+
         <div class="summary-box">
           <div class="summary-line">
-            <span class="sum-label" id="sumPkg">Personal — Single Page</span>
-            <span id="sumBasePrice">£200.00</span>
+            <span class="sum-label" id="sumPkg">Personal: Single Page</span>
+            <span id="sumBasePrice">£250.00</span>
           </div>
           <div class="summary-line discount-line" id="sumDiscLine">
             <span class="sum-label">Discount</span>
@@ -426,20 +593,60 @@
           </div>
           <div class="summary-line total-line">
             <span class="sum-label">Total</span>
-            <span id="sumTotal">£200.00</span>
+            <span id="sumTotal">£250.00</span>
           </div>
           <div class="deposit-note" id="depositNote">
-            Paying <strong>50% deposit</strong> today: <strong id="depositAmt">£100.00</strong>. Remaining <span id="remainAmt">£100.00</span> due before launch.
+            Paying <strong>50% deposit</strong> today: <strong id="depositAmt">£125.00</strong>. Remaining <span id="remainAmt">£125.00</span> due before launch.
           </div>
         </div>
 
-        <div class="pay-type-toggle">
+        <div class="recurring-fields" id="recurringFields" style="display:none;">
+          <div class="field-wrap">
+            <label class="field-label" for="fieldDomainName">Domain Name</label>
+            <input class="field-input" type="text" id="fieldDomainName" placeholder="e.g. yourorg.org.uk"/>
+          </div>
+
+          <div class="recurring-line-toggle">
+            <label for="toggleDomain"><input type="checkbox" id="toggleDomain" checked/> Include domain renewal</label>
+            <div class="field-wrap" id="domainPriceWrap">
+              <label class="field-label" for="fieldDomainPrice">Annual Domain Price (£)</label>
+              <input class="field-input" type="number" id="fieldDomainPrice" min="0" step="0.01" placeholder="e.g. 18.00"/>
+            </div>
+          </div>
+
+          <div class="recurring-line-toggle">
+            <label for="toggleEmail"><input type="checkbox" id="toggleEmail" checked/> Include custom email hosting</label>
+            <div id="emailFieldsWrap">
+              <div class="field-wrap" style="margin-bottom:0.6rem;">
+                <label class="field-label" for="fieldEmailTier">Google Workspace Plan</label>
+                <select class="field-input" id="fieldEmailTier">
+                  <option value="starter" data-price="72">Starter — £72 / mailbox / yr</option>
+                  <option value="standard" data-price="144">Standard — £144 / mailbox / yr</option>
+                </select>
+              </div>
+              <div class="contact-row">
+                <div class="field-wrap">
+                  <label class="field-label" for="fieldMailboxQty">Number of Mailboxes</label>
+                  <input class="field-input" type="number" id="fieldMailboxQty" min="1" step="1" value="1"/>
+                </div>
+                <div class="field-wrap">
+                  <label class="field-label" for="fieldEmailUnitPrice">Price / Mailbox / yr (£)</label>
+                  <input class="field-input" type="number" id="fieldEmailUnitPrice" min="0" step="0.01" value="72"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="recurring-note">Billed annually and automatically renewed on the card provided, until cancelled. Charges recur every year on this date.</p>
+        </div>
+
+        <div class="pay-type-toggle" id="payTypeToggle">
           <button class="toggle-btn active" id="btnDeposit" onclick="setType('deposit')">Pay 50% Deposit</button>
           <button class="toggle-btn" id="btnFull" onclick="setType('full')">Pay in Full</button>
         </div>
-        <p class="charge-note">Charging today: <strong id="chargeDisplay">£100.00</strong></p>
+        <p class="charge-note" id="chargeNote">Charging today: <strong id="chargeDisplay">£125.00</strong></p>
 
-        <div class="discount-wrap">
+        <div class="discount-wrap" id="discountWrap">
           <input type="text" class="discount-input" id="discInput" placeholder="Discount code" maxlength="20"/>
           <button class="discount-btn" onclick="applyDiscount()">Apply</button>
         </div>
@@ -449,29 +656,36 @@
           <p class="stripe-placeholder">Loading secure payment form…</p>
         </div>
 
+      <div class="maint-tick-wrap" id="maintTickWrap" style="display:none;">
+        <input type="checkbox" id="maintAck"/>
+        <label class="maint-tick-label" for="maintAck">
+          <strong>I understand that my website package does not include maintenance.</strong><br>Maintenance add-on covers minor content and image updates only. New pages and redesigns are not included.
+        </label>
+      </div>
+
         <button class="pay-btn" id="payBtn" disabled>
-          Pay <span id="btnAmt">£100.00</span> — Confirm
+          Pay <span id="btnAmt">£125.00</span> : Confirm
         </button>
         <div id="pay-error"></div>
-
+        
         <div class="secure-foot">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
           </svg>
-          Secured by Stripe &nbsp;·&nbsp; No card details stored by 'Lase
+          Secured by Stripe &nbsp;·&nbsp; No card details stored by buildwithlase
         </div>
 
       </div>
     </div>
   </div>
 
-  <footer class="site-footer">
-    <p class="footer-brand">'Lase Web Services</p>
-    <p class="footer-copy">&copy; 2026 'Lase. Questions? <a href="mailto:lase.zlkfl@gmail.com">lase.zlkfl@gmail.com</a></p>
+  <footer class="site-footer"> <a  href="https://buildwithlase-pay.netlify.app/"  target="_blank"  rel="noopener"  class="footer-brand">  buildwithlase</a>
+    <p class="footer-copy">&copy; 2026 buildwithlase. Questions? <a href="mailto:lase.zlkfl@gmail.com">lase.zlkfl@gmail.com</a></p>
+    <p class="footer-byline">Built by <a href="https://toluwalase.com" target="_blank" rel="noopener">toluwalase.com</a></p>
   </footer>
 
 <script>
-const STRIPE_KEY = 'pk_test_REPLACE_WITH_YOUR_KEY';
+const STRIPE_KEY = 'pk_live_51TeKNHEn65MJH1X7Ni7AcVPSphmy8sn9aC6vvd5i7qbnqsMdAGc5m9v2MaEDu59QR1CFVM7kk8IhTTwfNVfpyjed00PReKtZeh';
 
 const DISCOUNT_CODES = {
   'CHURCH20':  { type: 'percent', value: 20,  label: '20% off for church & community organisations' },
@@ -481,37 +695,123 @@ const DISCOUNT_CODES = {
 };
 
 const PKG_LABELS = {
-  personal_single: 'Personal — Single Page',
-  personal_multi:  'Personal — Multi-Page',
-  business_single: 'Business — Single Page',
-  business_multi:  'Business — Multi-Page',
+  personal_single: 'Personal : Single Page',
+  personal_multi:  'Personal : Multi-Page',
+  business_single: 'Business : Single Page',
+  business_multi:  'Business : Multi-Page',
+  maintenance:     'Maintenance',
+  domain_email:    'Domain & Email Hosting',
 };
 
-let S = { id: 'personal_single', base: 200, disc: 0, type: 'deposit' };
+let S = { id: 'personal_single', base: 250, disc: 0, type: 'deposit', isMaint: false, isRecurring: false };
+let ACCOUNT_TYPE = 'individual';
 let stripe, elements;
 
+function setAccountType(t) {
+  ACCOUNT_TYPE = t;
+  document.getElementById('btnIndividual').classList.toggle('active', t === 'individual');
+  document.getElementById('btnCompany').classList.toggle('active', t === 'company');
+  document.getElementById('companyFieldsWrap').style.display = t === 'company' ? 'block' : 'none';
+  document.getElementById('labelFirst').textContent = t === 'company' ? 'Contact First Name' : 'First Name';
+  document.getElementById('labelLast').textContent = t === 'company' ? 'Contact Surname' : 'Surname';
+}
+
+function emailTierDefaultPrice() {
+  const sel = document.getElementById('fieldEmailTier');
+  const opt = sel.options[sel.selectedIndex];
+  return parseFloat(opt.dataset.price);
+}
+
+function recurringTotal() {
+  const includeDomain = document.getElementById('toggleDomain').checked;
+  const includeEmail = document.getElementById('toggleEmail').checked;
+  let total = 0;
+  if (includeDomain) {
+    total += Number(document.getElementById('fieldDomainPrice').value) || 0;
+  }
+  if (includeEmail) {
+    const unit = Number(document.getElementById('fieldEmailUnitPrice').value) || 0;
+    const qty = Math.max(1, parseInt(document.getElementById('fieldMailboxQty').value, 10) || 1);
+    total += unit * qty;
+  }
+  return total;
+}
+
+function refreshRecurringUI() {
+  document.getElementById('domainPriceWrap').style.display = document.getElementById('toggleDomain').checked ? 'flex' : 'none';
+  document.getElementById('emailFieldsWrap').style.display = document.getElementById('toggleEmail').checked ? 'block' : 'none';
+  const t = recurringTotal();
+  document.getElementById('sumBasePrice').textContent = fmt(t);
+  document.getElementById('sumTotal').textContent = fmt(t);
+  document.getElementById('btnAmt').textContent = fmt(t) + ' / yr';
+}
+
 function total() { return Math.max(S.base - S.disc, 0); }
-function charge() { const t = total(); return S.type === 'deposit' ? t / 2 : t; }
+function charge() {
+  const t = total();
+  if (S.isMaint) return t;
+  return S.type === 'deposit' ? t / 2 : t;
+}
 function fmt(n) { return '£' + n.toFixed(2); }
 
 function refresh() {
-  const t = total(), c = charge(), r = t - c;
   document.getElementById('sumPkg').textContent = PKG_LABELS[S.id];
+
+  if (S.isRecurring) {
+    document.getElementById('sumDiscLine').style.display = 'none';
+    document.getElementById('payTypeToggle').style.display = 'none';
+    document.getElementById('chargeNote').style.display = 'none';
+    document.getElementById('discountWrap').style.display = 'none';
+    document.getElementById('discMsg').textContent = '';
+    document.getElementById('maintTickWrap').style.display = 'none';
+    document.getElementById('noMaintNotice').style.display = 'none';
+    document.getElementById('depositNote').style.display = 'none';
+    document.getElementById('recurringFields').style.display = 'flex';
+    document.getElementById('stripe-mount').style.display = 'none';
+    document.getElementById('billingAddressWrap').style.display = 'none';
+    document.getElementById('payBtn').innerHTML = 'Continue to Secure Checkout';
+    document.getElementById('payBtn').disabled = false;
+    refreshRecurringUI();
+    return;
+  }
+
+  document.getElementById('recurringFields').style.display = 'none';
+  document.getElementById('stripe-mount').style.display = 'block';
+  document.getElementById('billingAddressWrap').style.display = 'block';
+  document.getElementById('depositNote').style.display = 'block';
+
+  const t = total(), c = charge(), r = t - c;
   document.getElementById('sumBasePrice').textContent = fmt(S.base);
 
   const dl = document.getElementById('sumDiscLine');
   dl.style.display = S.disc > 0 ? 'flex' : 'none';
   document.getElementById('sumDiscAmt').textContent = '−' + fmt(S.disc);
   document.getElementById('sumTotal').textContent = fmt(t);
-  document.getElementById('depositAmt').textContent = fmt(c);
-  document.getElementById('remainAmt').textContent = fmt(r);
-  document.getElementById('chargeDisplay').textContent = fmt(c);
-  document.getElementById('btnAmt').textContent = fmt(c);
+
+  const chargeDisp = document.getElementById('chargeDisplay');
+  const btnAmt = document.getElementById('btnAmt');
+  chargeDisp.textContent = fmt(c);
+  btnAmt.textContent = fmt(c);
+  document.getElementById('payBtn').innerHTML = 'Pay <span id="btnAmt">' + fmt(c) + '</span> : Confirm';
 
   const dn = document.getElementById('depositNote');
-  dn.innerHTML = S.type === 'deposit'
-    ? `Paying <strong>50% deposit</strong> today: <strong id="depositAmt">${fmt(c)}</strong>. Remaining <span id="remainAmt">${fmt(r)}</span> due before launch.`
-    : 'Paying the <strong>full amount</strong> today. No further payment required.';
+  if (S.isMaint) {
+    dn.innerHTML = 'One-off maintenance payment. Pay as and when you need updates.';
+    document.getElementById('payTypeToggle').style.display = 'none';
+    document.getElementById('chargeNote').style.display = 'none';
+    document.getElementById('discountWrap').style.display = 'none';
+    document.getElementById('maintTickWrap').style.display = 'flex';
+    document.getElementById('noMaintNotice').style.display = 'none';
+  } else {
+    dn.innerHTML = S.type === 'deposit'
+      ? `Paying <strong>50% deposit</strong> today: <strong>${fmt(c)}</strong>. Remaining <span>${fmt(r)}</span> due before launch.`
+      : 'Paying the <strong>full amount</strong> today. No further payment required.';
+    document.getElementById('payTypeToggle').style.display = 'grid';
+    document.getElementById('chargeNote').style.display = 'block';
+    document.getElementById('discountWrap').style.display = 'flex';
+    document.getElementById('maintTickWrap').style.display = 'flex';
+    document.getElementById('noMaintNotice').style.display = 'block';
+  }
 
   initStripe(Math.round(c * 100));
 }
@@ -523,11 +823,15 @@ document.querySelectorAll('.pkg-card').forEach(card => {
     card.querySelector('input').checked = true;
     S.id = card.dataset.id;
     S.base = parseInt(card.dataset.price);
+    S.isMaint = card.dataset.maint === 'true';
+    S.isRecurring = card.dataset.recurring === 'true';
     S.disc = 0;
     document.getElementById('discInput').value = '';
     const dm = document.getElementById('discMsg');
     dm.className = 'discount-msg';
     dm.textContent = '';
+    // reset maintenance ack
+    document.getElementById('maintAck').checked = false;
     refresh();
   });
 });
@@ -559,7 +863,24 @@ function applyDiscount() {
 
 document.getElementById('discInput').addEventListener('keydown', e => { if (e.key==='Enter') applyDiscount(); });
 
+['toggleDomain', 'toggleEmail'].forEach(id => {
+  document.getElementById(id).addEventListener('change', refreshRecurringUI);
+});
+['fieldDomainPrice', 'fieldMailboxQty', 'fieldEmailUnitPrice'].forEach(id => {
+  document.getElementById(id).addEventListener('input', refreshRecurringUI);
+});
+document.getElementById('fieldEmailTier').addEventListener('change', () => {
+  document.getElementById('fieldEmailUnitPrice').value = emailTierDefaultPrice();
+  refreshRecurringUI();
+});
+
+['fieldEmail', 'fieldCompanyName', 'fieldFirst', 'fieldLast'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => { if (!S.isRecurring) refresh(); });
+});
+
 let stripeInitialised = false;
+let addressElement = null;
+let currentCustomerId = null;
 
 async function initStripe(pence) {
   const mount = document.getElementById('stripe-mount');
@@ -572,16 +893,33 @@ async function initStripe(pence) {
   }
 
   try {
+    const first = document.getElementById('fieldFirst').value.trim();
+    const last = document.getElementById('fieldLast').value.trim();
+    const email = document.getElementById('fieldEmail').value.trim();
+    const isCompany = ACCOUNT_TYPE === 'company';
+    const companyName = document.getElementById('fieldCompanyName').value.trim();
+    const companyRegNo = document.getElementById('fieldCompanyRegNo').value.trim();
+
     const res = await fetch('/.netlify/functions/create-payment-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: pence, currency: 'gbp', package: S.id, paymentType: S.type })
+      body: JSON.stringify({
+        amount: pence, currency: 'gbp', package: S.id, paymentType: S.isMaint ? 'maintenance' : S.type,
+        accountType: ACCOUNT_TYPE,
+        billingName: isCompany ? companyName : (first + ' ' + last),
+        contactName: first + ' ' + last,
+        companyName: isCompany ? companyName : '',
+        companyRegNo: isCompany ? companyRegNo : '',
+        customerEmail: email,
+        customerPhone: document.getElementById('fieldPhone').value.trim(),
+      })
     });
 
     if (!res.ok) throw new Error('Function returned ' + res.status);
 
-    const { clientSecret, error: apiError } = await res.json();
+    const { clientSecret, customerId, error: apiError } = await res.json();
     if (apiError) throw new Error(apiError);
+    currentCustomerId = customerId || null;
 
     elements = stripe.elements({ clientSecret, appearance: {
       theme: 'flat',
@@ -606,6 +944,17 @@ async function initStripe(pence) {
     pe.mount('#stripe-mount');
     pe.on('ready', () => { document.getElementById('payBtn').disabled = false; });
 
+    const addrMount = document.getElementById('address-mount');
+    addressElement = elements.create('address', {
+      mode: 'billing',
+      fields: { phone: 'never' },
+      defaultValues: {
+        name: (first + ' ' + last).trim() || undefined,
+      },
+    });
+    addrMount.innerHTML = '';
+    addressElement.mount('#address-mount');
+
   } catch(e) {
     console.error('Stripe init error:', e);
     mount.innerHTML = `<p style="font-size:0.88rem;color:var(--error);text-align:center;padding:1.5rem 0;">Could not load payment form: ${e.message}</p>`;
@@ -615,20 +964,143 @@ async function initStripe(pence) {
 document.getElementById('payBtn').addEventListener('click', async () => {
   const btn = document.getElementById('payBtn');
   const err = document.getElementById('pay-error');
+
+  // Validate contact fields
+  const first = document.getElementById('fieldFirst').value.trim();
+  const last = document.getElementById('fieldLast').value.trim();
+  const email = document.getElementById('fieldEmail').value.trim();
+  const phone = document.getElementById('fieldPhone').value.trim();
+  const companyName = document.getElementById('fieldCompanyName').value.trim();
+  const companyRegNo = document.getElementById('fieldCompanyRegNo').value.trim();
+  const isCompany = ACCOUNT_TYPE === 'company';
+
+  if (!first || !last || !email || !phone) {
+    err.textContent = 'Please enter your first name, surname, email, and contact number before paying.';
+    err.style.display = 'block';
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    err.textContent = 'Please enter a valid email address.';
+    err.style.display = 'block';
+    return;
+  }
+  if (isCompany && !companyName) {
+    err.textContent = 'Please enter the company / organisation name.';
+    err.style.display = 'block';
+    return;
+  }
+
+  const billingName = isCompany ? companyName : (first + ' ' + last);
+
+  if (S.isRecurring) {
+    const domainName = document.getElementById('fieldDomainName').value.trim();
+    const includeDomain = document.getElementById('toggleDomain').checked;
+    const includeEmail = document.getElementById('toggleEmail').checked;
+    const domainPrice = Number(document.getElementById('fieldDomainPrice').value);
+    const emailTier = document.getElementById('fieldEmailTier').value;
+    const emailUnitPrice = Number(document.getElementById('fieldEmailUnitPrice').value);
+    const mailboxQty = parseInt(document.getElementById('fieldMailboxQty').value, 10) || 1;
+
+    if (!includeDomain && !includeEmail) {
+      err.textContent = 'Please include at least one item (domain renewal or email hosting).';
+      err.style.display = 'block';
+      return;
+    }
+    if (includeDomain && (!domainName || !domainPrice || domainPrice <= 0)) {
+      err.textContent = 'Please enter the domain name and a valid annual domain price.';
+      err.style.display = 'block';
+      return;
+    }
+    if (includeEmail && (!emailUnitPrice || emailUnitPrice <= 0 || mailboxQty < 1)) {
+      err.textContent = 'Please enter a valid email price and number of mailboxes.';
+      err.style.display = 'block';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Redirecting to secure checkout…';
+    err.style.display = 'none';
+
+    try {
+      const res = await fetch('/.netlify/functions/create-subscription-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          domainName, includeDomain, domainPriceGBP: domainPrice,
+          includeEmail, emailTier, emailUnitPriceGBP: emailUnitPrice, mailboxQty,
+          accountType: ACCOUNT_TYPE,
+          billingName, contactName: first + ' ' + last,
+          companyName: isCompany ? companyName : '',
+          companyRegNo: isCompany ? companyRegNo : '',
+          customerEmail: email, customerPhone: phone,
+          currency: 'gbp'
+        })
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) throw new Error(data.error || 'Could not start checkout.');
+      window.location.href = data.url;
+    } catch (e) {
+      err.textContent = e.message;
+      err.style.display = 'block';
+      btn.disabled = false;
+      btn.innerHTML = 'Continue to Secure Checkout';
+    }
+    return;
+  }
+
+  // Validate maintenance acknowledgement if maintenance selected
+  if (!document.getElementById('maintAck').checked) {
+    err.textContent = 'Please tick the acknowledgement box before proceeding.';
+    err.style.display = 'block';
+    return;
+  }
+
+  // Validate billing address
+  if (!addressElement) {
+    err.textContent = 'Payment form is still loading. Please wait a moment and try again.';
+    err.style.display = 'block';
+    return;
+  }
+  const addressResult = await addressElement.getValue();
+  if (!addressResult.complete) {
+    err.textContent = 'Please complete your billing address before paying.';
+    err.style.display = 'block';
+    return;
+  }
+  const billingAddress = addressResult.value.address;
+
   btn.disabled = true;
   btn.textContent = 'Processing…';
   err.style.display = 'none';
+
   const { error } = await stripe.confirmPayment({
     elements,
-    confirmParams: { return_url: window.location.origin + '/payment-confirmed' },
+    confirmParams: {
+      return_url: window.location.origin + '/payment-confirmed',
+      payment_method_data: {
+        billing_details: { name: billingName, email: email, phone: phone, address: billingAddress }
+      }
+    },
     redirect: 'if_required',
   });
+
   if (error) {
     err.textContent = error.message;
     err.style.display = 'block';
     btn.disabled = false;
-    btn.innerHTML = 'Pay <span id="btnAmt">' + fmt(charge()) + '</span> — Confirm';
+    btn.innerHTML = 'Pay <span id="btnAmt">' + fmt(charge()) + '</span> : Confirm';
   } else {
+    if (currentCustomerId) {
+      try {
+        await fetch('/.netlify/functions/update-customer-address', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ customerId: currentCustomerId, address: billingAddress, name: billingName })
+        });
+      } catch (e) {
+        console.error('Could not save address to customer record:', e);
+      }
+    }
     showSuccess();
   }
 });
@@ -641,4 +1113,3 @@ function showSuccess() {
 refresh();
 </script>
 </body>
-</html>
